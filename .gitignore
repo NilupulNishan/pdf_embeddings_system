@@ -34,9 +34,9 @@ ENV/
 .env.local
 .env.*.local
 
-# ChromaDB
-# chromadb_rag_db3/
-# *.sqlite3
+# Chroma DB local storage
+data/chroma_db/
+data/chroma_db/**
 
 # Leads Data
 leads_data.json
