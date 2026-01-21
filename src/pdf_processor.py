@@ -10,8 +10,9 @@ from llama_index.core import Document
 class PDFProcessor:
     """Handles PDF file loading and text extraction."""
 
-    def __init__(self, pdf_directory: Path):
-        self.reader = PyMuPDFReader()
+    def __init__(self):
+        self.loader = PyMuPDFReader()
+        
 
     def get_pdf_files(self, directory: Path) -> List[Path]:
         """
