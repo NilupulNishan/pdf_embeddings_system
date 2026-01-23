@@ -8,6 +8,7 @@ from .query_engine import QueryEngine, MultiCollectionQueryEngine
 
 __all__ = [
     'PDFLoader',
+    'MetadataManager',
     'EmbeddingsManager',
     'DocumentChunker',
     'QueryEngine',
