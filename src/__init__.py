@@ -7,6 +7,7 @@ from .chunker import DocumentChunker
 from .metadata_manager import MetadataManager
 from .storage_manager import StorageManager
 from .storage_manager import StorageManager
+from .retriever import SmartRetriever, MultiCollectionRetriever, QueryResponse
 
 __all__ = [
     'PDFLoader',
@@ -15,4 +16,7 @@ __all__ = [
     'MetadataManager',
     'StorageManager',
     'MultiCollectionQueryEngine',
+    'SmartRetriever',
+    'MultiCollectionRetriever',
+    'QueryResponse',
 ]
