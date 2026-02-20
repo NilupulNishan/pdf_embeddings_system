@@ -350,7 +350,7 @@ streamlit run streamlit_app.py
 Then open:
 
 ```
-http://localhost:8501
+http://localhost:8502
 ```
 
 ---

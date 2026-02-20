@@ -25,3 +25,5 @@ tqdm==4.66.1
 
 # Utilities
 colorama==0.4.6
+
+streamlit
