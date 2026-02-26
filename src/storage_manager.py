@@ -9,6 +9,7 @@ import chromadb
 from llama_index.core import VectorStoreIndex, StorageContext
 from llama_index.core.storage.docstore import SimpleDocumentStore
 from llama_index.core.schema import BaseNode, TextNode
+from llama_index.core.node_parser import get_leaf_nodes
 from llama_index.vector_stores.chroma import ChromaVectorStore
 from config import settings
 
@@ -186,9 +187,15 @@ class StorageManager:
             chroma_collection = self.chroma_client.create_collection(collection_name)
             vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
             
-            # Create docstore with all nodes
+            # Only store parent nodes in docstore — leaf nodes are already in ChromaDB.
+            # AutoMergingRetriever only needs parents to merge up from retrieved leaves.
+            leaf_node_ids = {n.node_id for n in get_leaf_nodes(all_nodes)}
+            parent_nodes = [n for n in all_nodes if n.node_id not in leaf_node_ids]
+            
+            logger.info(f"  Docstore: {len(parent_nodes)} parent nodes (excluded {len(leaf_node_ids)} leaf nodes already in ChromaDB)")
+            
             docstore = SimpleDocumentStore()
-            docstore.add_documents(all_nodes)
+            docstore.add_documents(parent_nodes)
             
             # Save docstore to disk
             self.save_docstore(docstore, collection_name)
@@ -210,7 +217,9 @@ class StorageManager:
             
             logger.info(f"  ✓ Collection saved: {collection_name}")
             logger.debug(f"    Total nodes: {len(all_nodes)}")
-            logger.debug(f"    Indexed nodes: {len(enriched_nodes)}")
+            logger.debug(f"    Parent nodes in docstore: {len(parent_nodes)}")
+            logger.debug(f"    Leaf nodes in ChromaDB: {len(leaf_node_ids)}")
+            logger.debug(f"    Indexed (enriched) nodes: {len(enriched_nodes)}")
             
             return True
             
