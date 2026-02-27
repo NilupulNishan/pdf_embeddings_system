@@ -490,9 +490,9 @@ with st.sidebar:
 col_chat, col_pdf = st.columns([1, 1], gap="large")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# LEFT — Chat (fixed max-height + NO “messages under input” bug)
-# ══════════════════════════════════════════════════════════════════════════════
+# ════════════════
+# LEFT — Chat 
+# ════════════════
 with col_chat:
     st.markdown("### Ask a question")
 
