@@ -593,7 +593,6 @@ with col_chat:
                         nodes = response.source_nodes
                         st.markdown(answer)
 
-                        # ✅ pills update right viewer
                         render_source_pills(nodes, key_prefix=f"live_{st.session_state.query_count}")
 
                         # auto-set viewer to first page
