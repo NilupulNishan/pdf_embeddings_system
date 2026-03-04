@@ -7,6 +7,7 @@ Run:
 
 from __future__ import annotations
 
+import os
 import sys
 import logging
 from pathlib import Path
@@ -14,6 +15,11 @@ from urllib.parse import quote
 
 import streamlit as st
 from streamlit.components.v1 import html as st_html
+
+from dotenv import load_dotenv
+from langsmith import traceable
+
+load_dotenv()
 
 from src.storage_manager import StorageManager
 from src.retriever import SmartRetriever, MultiCollectionRetriever
@@ -45,6 +51,11 @@ _boot_pdf_server()
 PDF_DIR = PROJECT_ROOT / "data" / "pdfs"
 PDF_HTTP_BASE = "http://localhost:8000"
 
+@traceable(name="rag_query")
+def run_rag_query(retriever, query, is_multi=False):
+    if is_multi:
+        return retriever.query_best(query)
+    return retriever.query(query)
 
 # ─── Session state defaults ───────────────────────────────────────────────────
 for k, v in {
@@ -582,11 +593,10 @@ with col_chat:
                         )
 
                     with st.spinner("Searching…"):
+                        response = run_rag_query(retriever, query, is_multi)
+
                         if is_multi:
-                            response = retriever.query_best(query)
                             coll_label = response.collection_name
-                        else:
-                            response = retriever.query(query)
 
                     if getattr(response, "retrieval_successful", False):
                         answer = response.answer
