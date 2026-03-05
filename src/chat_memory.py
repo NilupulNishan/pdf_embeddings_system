@@ -6,6 +6,7 @@ so it can be passed to the LLM along with the current query.
 """
 
 from typing import List, Dict
+from config import settings
 
 
 class ChatMemoryManager:
@@ -20,14 +21,14 @@ class ChatMemoryManager:
     - Allows clearing memory for new sessions
     """
 
-    def __init__(self, max_turns: int = 5):
+    def __init__(self, max_turns: int = None):
         """
         Initialize memory manager.
 
         Args:
             max_turns: Number of previous Q&A pairs to keep
         """
-        self.max_turns = max_turns
+        self.max_turns = max_turns or settings.MAX_CHAT_TURNS
         self.history: List[Dict[str, str]] = []
 
     def add_user_message(self, message: str):

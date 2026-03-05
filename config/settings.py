@@ -55,6 +55,8 @@ PDF_DIRECTORY.mkdir(parents=True, exist_ok=True)
 CHROMA_DB_PATH.mkdir(parents=True, exist_ok=True)
 DOCSTORE_PATH.mkdir(parents=True, exist_ok=True)
 
+# Chat Memory Configuration
+MAX_CHAT_TURNS = int(os.getenv("MAX_CHAT_TURNS", 5))
 
 def validate_config():
     """Validate that all required configuration is present."""
