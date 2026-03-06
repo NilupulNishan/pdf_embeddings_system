@@ -116,12 +116,12 @@ def run():
 
             if context:
                 query_with_memory = f"""
-Previous conversation:
-{context}
+                Previous conversation:
+                {context}
 
-Current question:
-{query}
-"""
+                Current question:
+                {query}
+                """
             else:
                 query_with_memory = query
 
