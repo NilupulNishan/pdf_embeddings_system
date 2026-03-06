@@ -14,7 +14,9 @@ COLLECTION = "telecom_system_iom_procedure___starlink_system"
 def run_test():
 
     retriever = SmartRetriever(COLLECTION)
-    memory = ChatMemoryManager(max_turns=5)
+
+    # initialize memory (no max_turns anymore)
+    memory = ChatMemoryManager()
 
     print("\n=== Retrieval Accuracy Test (Memory vs No Memory) ===\n")
 
@@ -26,6 +28,7 @@ def run_test():
     print("Q1:", q1)
     print("Answer:", resp1.answer[:150], "...\n")
 
+    # store conversation
     memory.add_user_message(q1)
     memory.add_assistant_message(resp1.answer)
 
@@ -38,7 +41,13 @@ def run_test():
     resp_no_memory = retriever.query(q2)
 
     # WITH memory
-    context = memory.get_context()
+    history = memory.get_context()
+
+    context = ""
+    if history:
+        context = "\n".join(
+            f"{msg.role.capitalize()}: {msg.content}" for msg in history
+        )
 
     q2_memory = f"""
 Previous conversation:

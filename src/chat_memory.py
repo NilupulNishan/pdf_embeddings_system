@@ -1,47 +1,52 @@
 """
-Chat Memory Manager for conversational RAG queries.
+Chat Memory Manager using LlamaIndex.
 
-This module stores recent conversation history and formats it
-so it can be passed to the LLM along with the current query.
+Replaces the custom ChatMemoryManager with LlamaIndex's
+ChatMemoryBuffer which automatically manages conversation history,
+token limits, and formatting for LLM prompts.
 """
 
-from typing import List, Dict
+from llama_index.core.memory import ChatMemoryBuffer
+from llama_index.core.llms import ChatMessage
 from config import settings
 
 
 class ChatMemoryManager:
     """
-    Manages conversation history for contextual queries.
+    Wrapper around LlamaIndex ChatMemoryBuffer.
 
     Features
     --------
     - Stores user and assistant messages
-    - Limits memory to last N conversation turns
-    - Formats history into LLM-friendly context
-    - Allows clearing memory for new sessions
+    - Automatic token trimming
+    - Compatible with LlamaIndex chat engines
+    - Simple API similar to previous memory manager
     """
 
-    def __init__(self, max_turns: int = None):
+    def __init__(self, token_limit: int = None):
         """
         Initialize memory manager.
 
         Args:
-            max_turns: Number of previous Q&A pairs to keep
+            token_limit: Maximum tokens to keep in memory
         """
-        self.max_turns = max_turns or settings.MAX_CHAT_TURNS
-        self.history: List[Dict[str, str]] = []
+        self.token_limit = token_limit or getattr(settings, "CHAT_MEMORY_TOKEN_LIMIT", 3000)
+
+        # Initialize LlamaIndex memory
+        self.memory = ChatMemoryBuffer.from_defaults(
+            token_limit=self.token_limit
+        )
 
     def add_user_message(self, message: str):
         """
         Store user message.
 
         Args:
-            message: User question
+            message: User query
         """
-        self.history.append({
-            "role": "user",
-            "content": message
-        })
+        self.memory.put(
+            ChatMessage(role="user", content=message)
+        )
 
     def add_assistant_message(self, message: str):
         """
@@ -50,48 +55,39 @@ class ChatMemoryManager:
         Args:
             message: LLM response
         """
-        self.history.append({
-            "role": "assistant",
-            "content": message
-        })
+        self.memory.put(
+            ChatMessage(role="assistant", content=message)
+        )
 
-    def get_context(self) -> str:
+    def get_context(self):
         """
-        Convert recent conversation history into a context string.
+        Return conversation history as list of messages.
 
         Returns:
-            Formatted conversation history
+            List of ChatMessage objects
         """
-        if not self.history:
-            return ""
-
-        # Keep only last N conversation turns
-        recent_history = self.history[-self.max_turns * 2:]
-
-        context_lines = []
-
-        for msg in recent_history:
-            role = msg["role"]
-            content = msg["content"]
-
-            if role == "user":
-                context_lines.append(f"User: {content}")
-            else:
-                context_lines.append(f"Assistant: {content}")
-
-        return "\n".join(context_lines)
+        return self.memory.get()
 
     def clear(self):
         """
-        Reset conversation history.
+        Clear memory for a new session.
         """
-        self.history = []
+        self.memory.reset()
 
-    def get_history(self) -> List[Dict[str, str]]:
+    def get_history(self):
         """
         Return full conversation history.
 
         Returns:
-            List of message dictionaries
+            List of ChatMessage objects
         """
-        return self.history
+        return self.memory.get()
+
+    def size(self):
+        """
+        Return number of stored messages.
+
+        Returns:
+            int
+        """
+        return len(self.memory.get())

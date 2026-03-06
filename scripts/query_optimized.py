@@ -54,6 +54,17 @@ def select_collection(collections):
         print(f"{Fore.RED}Invalid.{Style.RESET_ALL}")
 
 
+def history_to_text(history):
+    """Convert ChatMessage objects into readable text."""
+    if not history:
+        return ""
+
+    return "\n".join(
+        f"{msg.role.capitalize()}: {msg.content}"
+        for msg in history
+    )
+
+
 def run():
     print(f"\n{Fore.CYAN}{'='*60}")
     print("  PDF QUERY — OPTIMIZED + CHAT MEMORY")
@@ -79,7 +90,7 @@ def run():
     formatter = SourceFormatter()
 
     # ── Initialize Chat Memory ───────────────────────────────
-    memory = ChatMemoryManager(max_turns=5)
+    memory = ChatMemoryManager()
 
     print(f"{Fore.YELLOW}Type questions, 'reset' to clear memory, or 'quit' to exit{Style.RESET_ALL}\n")
 
@@ -100,7 +111,8 @@ def run():
                 continue
 
             # ── Build memory context ───────────────────────────
-            context = memory.get_context()
+            history = memory.get_context()
+            context = history_to_text(history)
 
             if context:
                 query_with_memory = f"""

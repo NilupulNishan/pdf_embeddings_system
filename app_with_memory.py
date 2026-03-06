@@ -54,7 +54,7 @@ for k, v in {
     "pdf_filename": None,
     "pdf_page": 1,
     "query_count": 0,
-    "chat_memory": ChatMemoryManager(max_turns=5),
+    "chat_memory": ChatMemoryManager(),
 }.items():
     if k not in st.session_state:
         st.session_state[k] = v
@@ -568,16 +568,23 @@ with col_chat:
     if query:
         st.session_state.messages.append({"role": "user", "content": query})
         memory = st.session_state.chat_memory
-        context = memory.get_context()
+        history = memory.get_context()
 
+        context = ""
+        if history:
+            context = "\n".join(
+                f"{msg.role.capitalize()}: {msg.content}" for msg in history
+            )
         if context:
             query_with_memory = f"""
-        Previous conversation:
-        {context}
+            You are answering questions about technical manuals.
 
-        Current question:
-        {query}
-        """
+            Conversation history:
+            {context}
+
+            User question:
+            {query}
+            """
         else:
             query_with_memory = query
 
