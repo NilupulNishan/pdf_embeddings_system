@@ -297,7 +297,10 @@ python scripts/query.py manual_collection "How do I reset the device?"
 ### Programmatic Usage
 
 ```python
-from core import PDFLoader, DocumentChunker, StorageManager, SmartRetriever
+from core.pdf_loader import PDFLoader
+from core.document_chunker import DocumentChunker
+from core.storage_manager import StorageManager
+from core.smart_retriever import SmartRetriever
 from core.embeddings import EmbeddingsManager
 from pathlib import Path
 
