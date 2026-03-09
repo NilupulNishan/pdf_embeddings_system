@@ -26,7 +26,7 @@ This system allows you to:
 ```bash
 # Clone or create project directory
 git clone https://github.com/NilupulNishan/pdf_embeddings_system.git
-cd pdf-embeddings-system
+cd pdf_embeddings_system
 
 # Create virtual environment
 python -m venv venv
