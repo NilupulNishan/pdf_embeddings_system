@@ -6,7 +6,7 @@ Usage:
     python pdf_server.py
 
     # Or import and use programmatically
-    from pdf_server import open_pdf_at_page, start_server_background
+    from tools.pdf_server import open_pdf_at_page, start_server_background
 """
 
 import os
@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 # ─── Configuration ───────────────────────────────────────────────────────────
 
-PROJECT_ROOT = Path(__file__).parent
+PROJECT_ROOT = Path(__file__).parent.parent
 PDF_DIRECTORY = PROJECT_ROOT / "data" / "pdfs"
 SERVER_HOST = "127.0.0.1"
 SERVER_PORT = 7654

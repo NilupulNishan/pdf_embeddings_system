@@ -11,10 +11,10 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from config import settings
-from src.pdf_loader import PDFLoader
-from src.embeddings import EmbeddingsManager
-from src.chunker import DocumentChunker
-from src.storage_manager import StorageManager
+from core.pdf_loader import PDFLoader
+from core.embeddings import EmbeddingsManager
+from core.chunker import DocumentChunker
+from core.storage_manager import StorageManager
 
 # Configure logging
 logging.basicConfig(

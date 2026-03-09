@@ -5,8 +5,8 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.retriever import SmartRetriever
-from src.chat_memory import ChatMemoryManager
+from core.retriever import SmartRetriever
+from core.chat_memory import ChatMemoryManager
 
 COLLECTION = "telecom_system_iom_procedure___starlink_system"
 

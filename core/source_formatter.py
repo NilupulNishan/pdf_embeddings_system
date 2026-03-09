@@ -4,7 +4,7 @@ Production-grade source formatting for multiple output formats.
 import logging
 from typing import List
 from colorama import Fore, Style
-from src.metadata_manager import MetadataManager
+from core.metadata_manager import MetadataManager
 
 logger = logging.getLogger(__name__)
 

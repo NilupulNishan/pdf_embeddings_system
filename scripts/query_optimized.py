@@ -16,10 +16,10 @@ sys.path.insert(0, str(project_root))
 
 from colorama import init, Fore, Style
 
-from src.retriever import SmartRetriever, MultiCollectionRetriever
-from src.storage_manager import StorageManager
-from src.source_formatter import SourceFormatter
-from src.chat_memory import ChatMemoryManager
+from core.retriever import SmartRetriever, MultiCollectionRetriever
+from core.storage_manager import StorageManager
+from core.source_formatter import SourceFormatter
+from core.chat_memory import ChatMemoryManager
 
 init()
 logging.basicConfig(level=logging.WARNING)
