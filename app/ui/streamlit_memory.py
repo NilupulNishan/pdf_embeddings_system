@@ -10,20 +10,19 @@ from __future__ import annotations
 import sys
 import logging
 from pathlib import Path
-from urllib.parse import quote
-
-import streamlit as st
-from streamlit.components.v1 import html as st_html
-
-from src.storage_manager import StorageManager
-from src.retriever import SmartRetriever, MultiCollectionRetriever
-from src.metadata_manager import MetadataManager
-from pdf_server import get_viewer_url, SERVER_PORT, start_server_background
-
 
 # ─── Path setup ───────────────────────────────────────────────────────────────
-PROJECT_ROOT = Path(__file__).parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
+
+from urllib.parse import quote
+import streamlit as st
+from streamlit.components.v1 import html as st_html
+from core.chat_memory import ChatMemoryManager
+from core.storage_manager import StorageManager
+from core.retriever import SmartRetriever, MultiCollectionRetriever
+from core.metadata_manager import MetadataManager
+from tools.pdf_server import get_viewer_url, SERVER_PORT, start_server_background
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
@@ -53,6 +52,7 @@ for k, v in {
     "pdf_filename": None,
     "pdf_page": 1,
     "query_count": 0,
+    "chat_memory": ChatMemoryManager(),
 }.items():
     if k not in st.session_state:
         st.session_state[k] = v
@@ -510,6 +510,7 @@ with st.sidebar:
 
     if st.button("🗑  Clear chat", use_container_width=True):
         st.session_state.messages = []
+        st.session_state.chat_memory.clear()
         st.session_state.pdf_filename = None
         st.session_state.pdf_page = 1
         st.session_state.query_count = 0
@@ -564,6 +565,26 @@ with col_chat:
 
     if query:
         st.session_state.messages.append({"role": "user", "content": query})
+        memory = st.session_state.chat_memory
+        history = memory.get_context()
+
+        context = ""
+        if history:
+            context = "\n".join(
+                f"{msg.role.capitalize()}: {msg.content}" for msg in history
+            )
+        if context:
+            query_with_memory = f"""
+            You are answering questions about technical manuals.
+
+            Conversation history:
+            {context}
+
+            User question:
+            {query}
+            """
+        else:
+            query_with_memory = query
 
         with tail.container():
             with st.chat_message("user"):
@@ -583,14 +604,16 @@ with col_chat:
 
                     with st.spinner("Searching…"):
                         if is_multi:
-                            response = retriever.query_best(query)
+                            response = retriever.query_best(query_with_memory)
                             coll_label = response.collection_name
                         else:
-                            response = retriever.query(query)
+                            response = retriever.query(query_with_memory)
 
                     if getattr(response, "retrieval_successful", False):
                         answer = response.answer
                         nodes = response.source_nodes
+                        memory.add_user_message(query)
+                        memory.add_assistant_message(answer)
                         st.markdown(answer)
 
                         render_source_pills(nodes, key_prefix=f"live_{st.session_state.query_count}")

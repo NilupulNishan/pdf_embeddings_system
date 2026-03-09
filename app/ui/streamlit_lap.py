@@ -10,20 +10,18 @@ from __future__ import annotations
 import sys
 import logging
 from pathlib import Path
-from urllib.parse import quote
-
-import streamlit as st
-from streamlit.components.v1 import html as st_html
-
-from src.storage_manager import StorageManager
-from src.retriever import SmartRetriever, MultiCollectionRetriever
-from src.metadata_manager import MetadataManager
-from pdf_server import get_viewer_url, SERVER_PORT, start_server_background
-
 
 # ─── Path setup ───────────────────────────────────────────────────────────────
-PROJECT_ROOT = Path(__file__).parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
+
+from urllib.parse import quote
+import streamlit as st
+from streamlit.components.v1 import html as st_html
+from core.storage_manager import StorageManager
+from core.retriever import SmartRetriever, MultiCollectionRetriever
+from core.metadata_manager import MetadataManager
+from tools.pdf_server import get_viewer_url, SERVER_PORT, start_server_background
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)

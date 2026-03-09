@@ -16,11 +16,11 @@ sys.path.insert(0, str(project_root))
 from colorama import init, Fore, Style
 
 # ── use optimized retriever ───────────────────────────────────────────────────
-from src.retriever import SmartRetriever, MultiCollectionRetriever
+from core.retriever import SmartRetriever, MultiCollectionRetriever
 # ─────────────────────────────────────────────────────────────────────────────
 
-from src.storage_manager import StorageManager
-from src.source_formatter import SourceFormatter
+from core.storage_manager import StorageManager
+from core.source_formatter import SourceFormatter
 
 init()
 logging.basicConfig(level=logging.WARNING)

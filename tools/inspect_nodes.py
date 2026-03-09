@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from collections import defaultdict
 from config import settings
-from src.storage_manager import StorageManager
+from core.storage_manager import StorageManager
 
 
 def inspect_all():

@@ -25,8 +25,8 @@ This system allows you to:
 
 ```bash
 # Clone or create project directory
-mkdir pdf-embeddings-system
-cd pdf-embeddings-system
+git clone https://github.com/NilupulNishan/pdf_embeddings_system.git
+cd pdf_embeddings_system
 
 # Create virtual environment
 python -m venv venv
@@ -57,8 +57,8 @@ AZURE_EMBEDDING_DEPLOYMENT=text-embedding-3-large
 ### 3. Add PDFs
 
 ```bash
-# Copy your PDF files to the data directory
-cp /path/to/your/pdfs/*.pdf data/pdfs/
+Place your PDF files inside:
+data/pdfs/
 ```
 
 ### 4. Process PDFs
@@ -118,42 +118,79 @@ to reboot.
 
 **Ctrl+Click the blue link** → PDF opens at that exact page! ✨
 
+### Web Interface (Streamlit)
+
+Launch the interactive web interface:
+
+```bash
+streamlit run app/ui/streamlit_memory.py
+```
+
+Features:
+- Chat interface for asking questions
+- Source citations with clickable page pills
+- Embedded PDF viewer
+- Collection selection
+- Chat memory support
 ## Project Structure
 
 ```
 pdf-embeddings-system/
 │
+├── app/
+│   ├── api/
+│   └── ui/
+│       ├── streamlit_app.py
+│       ├── streamlit_lap.py
+│       └── streamlit_memory.py
+│
 ├── config/
 │   ├── __init__.py
-│   └── settings.py              # Configuration management
+│   └── settings.py                 # Configuration management
 │
-├── src/
-│   ├── __init__.py
-│   ├── pdf_loader.py            # PDF loading (per-page documents)
-│   ├── metadata_manager.py      # Page tracking & link generation
-│   ├── chunker.py               # Hierarchical chunking
-│   ├── embeddings.py            # Azure OpenAI integration
-│   ├── storage_manager.py       # ChromaDB + docstore management
-│   ├── retriever.py             # Smart retrieval
-│   └── source_formatter.py      # Source citation formatting
-│
-├── scripts/
-│   ├── process_pdfs.py          # Main processing pipeline
-│   └── query.py                 # Interactive query interface
+├── core/
+│   ├── chat_memory.py
+│   ├── chunker.py
+│   ├── embeddings.py
+│   ├── metadata_manager.py
+│   ├── pdf_loader.py
+│   ├── prompt_manager.py
+│   ├── retriever.py
+│   ├── source_formatter.py
+│   └── storage_manager.py
 │
 ├── data/
-│   ├── pdfs/                    # Your PDF files (input)
-│   ├── chroma_db/               # Vector database (auto-created)
-│   └── docstore/                # Node storage (auto-created)
+│   ├── pdfs/                       # Input PDF files
+│   ├── chroma_db/                  # Vector database (auto-created)
+│   └── docstore/                   # Node storage (auto-created)
+│
+├── notebooks/
+│   ├── chunker.ipynb
+│   └── enhanced_chunker.ipynb
+│
+├── scripts/
+│   ├── process_pdfs.py             # Main processing pipeline
+│   ├── query.py                    # Basic CLI query
+│   └── query_optimized.py          # Optimized query interface
 │
 ├── tests/
-│   └── test_basic.py            # Basic tests
+│   ├── test_basic.py
+│   ├── memory_test.py
+│   └── retrieval_memory_validation.py
 │
-├── .env                         # Your configuration (create from .env.example)
-├── .env.example                 # Configuration template
+├── tools/
+│   ├── inspect_nodes.py
+│   ├── pdf_server.py
+│   └── time_review.py
+│
+├── venv/
+│
+├── .env
+├── .env.example
 ├── .gitignore
 ├── requirements.txt
-└── README.md
+├── README.md
+└── Chunking_with_LlamaIndex.zip
 ```
 
 ## How It Works
@@ -260,8 +297,11 @@ python scripts/query.py manual_collection "How do I reset the device?"
 ### Programmatic Usage
 
 ```python
-from src import PDFLoader, DocumentChunker, StorageManager, SmartRetriever
-from src.embeddings import EmbeddingsManager
+from core.pdf_loader import PDFLoader
+from core.document_chunker import DocumentChunker
+from core.storage_manager import StorageManager
+from core.smart_retriever import SmartRetriever
+from core.embeddings import EmbeddingsManager
 from pathlib import Path
 
 # Initialize components
@@ -298,7 +338,7 @@ When enabled (`ENABLE_AUTO_MERGING=true`), the system automatically combines rel
 ### Multiple Output Formats
 
 ```python
-from src.source_formatter import SourceFormatter
+from core.source_formatter import SourceFormatter
 
 formatter = SourceFormatter()
 
@@ -318,7 +358,7 @@ html = formatter.format_for_html(nodes)
 ### Structured Responses
 
 ```python
-from src.retriever import SmartRetriever
+from core.retriever import SmartRetriever
 
 retriever = SmartRetriever("manual")
 response = retriever.query("How do I reset?")
@@ -338,12 +378,12 @@ response.error_message       # str: Error if failed
 python tests/test_basic.py
 
 # Test individual components
-python src/pdf_loader.py
-python src/metadata_manager.py
-python src/chunker.py
-python src/storage_manager.py
-python src/retriever.py
-python src/source_formatter.py
+python core/pdf_loader.py
+python core/metadata_manager.py
+python core/chunker.py
+python core/storage_manager.py
+python core/retriever.py
+python core/source_formatter.py
 ```
 
 ## Troubleshooting

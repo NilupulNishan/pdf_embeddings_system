@@ -18,7 +18,7 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.chat_memory import ChatMemoryManager
+from core.chat_memory import ChatMemoryManager
 
 
 def history_to_text(history):

@@ -20,9 +20,9 @@ from typing import List, Optional, Dict
 from llama_index.core.retrievers import AutoMergingRetriever
 from llama_index.core.query_engine import RetrieverQueryEngine
 from config import settings
-from src.embeddings import EmbeddingsManager
-from src.storage_manager import StorageManager
-from src.prompt_manager import PromptManager
+from core.embeddings import EmbeddingsManager
+from core.storage_manager import StorageManager
+from core.prompt_manager import PromptManager
 
 logger = logging.getLogger(__name__)
 
