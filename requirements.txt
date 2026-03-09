@@ -1,30 +1,59 @@
+# -------------------------------
+# FastAPI API
+# -------------------------------
+fastapi==0.135.1
+uvicorn[standard]==0.41.0
+pydantic==2.12.5
+
+# -------------------------------
 # Azure OpenAI
+# -------------------------------
 openai==2.0.1
 azure-core==1.35.1
+azure-identity==1.25.2
 
+# -------------------------------
 # PDF Processing
-pymupdf
+# -------------------------------
+PyMuPDF==1.27.1
+pytesseract==0.3.13
+pypdf==6.7.1
 
+# -------------------------------
 # LlamaIndex Core
-llama-index-core
-llama-index-readers-file
+# -------------------------------
+llama-index-core==0.14.14
+llama-index-readers-file==0.5.6
 
-# Azure OpenAI
-llama-index-llms-azure-openai
-llama-index-embeddings-azure-openai
+# -------------------------------
+# Azure OpenAI (LlamaIndex)
+# -------------------------------
+llama-index-llms-azure-openai==0.4.2
+llama-index-embeddings-azure-openai==0.4.1
 
+# -------------------------------
 # Vector Store
-llama-index-vector-stores-chroma
-chromadb
+# -------------------------------
+llama-index-vector-stores-chroma==0.5.5
+chromadb==1.5.0
 
+# -------------------------------
+# Streamlit UI
+# -------------------------------
+streamlit==1.54.0
+
+# -------------------------------
 # Environment Management
-python-dotenv
+# -------------------------------
+python-dotenv==1.2.1
 
-# Progress bars
+# -------------------------------
+# Utilities
+# -------------------------------
+colorama==0.4.6
 tqdm==4.66.1
 
-# Utilities
-colorama==0.4.6
-
-# HTTP client with connection pooling + HTTP/2(Already exist - pinned here for explicitness)
-httpx[http2]>=0.27.0
+# -------------------------------
+# HTTP Client
+# -------------------------------
+httpx[http2]==0.28.1
