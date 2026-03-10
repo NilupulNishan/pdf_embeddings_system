@@ -87,7 +87,7 @@ class PDFLoader:
             
             collection_name = self.get_collection_name(pdf_path)
             
-            logger.info(f"  ✓ Loaded {len(enhanced_docs)} pages from {pdf_path.name}")
+            logger.info(f"  [OK] Loaded {len(enhanced_docs)} pages from {pdf_path.name}")
             logger.debug(f"  Collection name: {collection_name}")
             
             return enhanced_docs, collection_name
@@ -141,7 +141,7 @@ class PDFLoader:
             try:
                 documents, collection_name = self.load_pdf(pdf_path)
                 results.append((documents, collection_name, pdf_path))
-                print(f"✓ {pdf_path.name} → {collection_name} ({len(documents)} pages)")
+                print(f"[OK] {pdf_path.name} → {collection_name} ({len(documents)} pages)")
             except Exception as e:
                 logger.error(f"Failed to load {pdf_path.name}: {e}")
                 print(f"✗ {pdf_path.name} - Error: {e}")

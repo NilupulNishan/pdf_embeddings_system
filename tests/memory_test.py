@@ -66,7 +66,7 @@ def test_large_conversation():
     print(context[:200], "...")
 
     assert "Question" in context
-    print("✓ Large conversation handled")
+    print("[OK] Large conversation handled")
 
 
 def test_memory_overflow():
@@ -86,7 +86,7 @@ def test_memory_overflow():
     # Token-based trimming means very old messages may disappear
     assert "Q9" in context
 
-    print("✓ Memory trimming functioning")
+    print("[OK] Memory trimming functioning")
 
 
 def test_context_generation_speed():
@@ -110,7 +110,7 @@ def test_context_generation_speed():
     print(f"Time for 1000 context generations: {duration:.4f} seconds")
 
     assert duration < 1
-    print("✓ Context generation efficient")
+    print("[OK] Context generation efficient")
 
 
 def test_memory_scaling():
@@ -132,7 +132,7 @@ def test_memory_scaling():
 
     print(f"Time for 5000 turns: {duration:.4f} seconds")
 
-    print("✓ Memory scaling acceptable")
+    print("[OK] Memory scaling acceptable")
 
 
 def test_reset():
@@ -149,7 +149,7 @@ def test_reset():
 
     assert len(history) == 0
 
-    print("✓ Memory reset successful")
+    print("[OK] Memory reset successful")
 
 
 def run_all_tests():
