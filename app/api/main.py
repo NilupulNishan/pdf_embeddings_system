@@ -15,4 +15,3 @@ app = FastAPI(
 app.include_router(query_router, prefix="/api", tags=["Query"])
 app.include_router(collection_router, prefix="/api", tags=["Collections"])
 app.include_router(health_router, prefix="/api", tags=["Health"])
-app.include_router(ingest_router, prefix="/api", tags=["Ingest"])
