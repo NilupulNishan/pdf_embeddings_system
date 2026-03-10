@@ -64,11 +64,11 @@ def process_single_pdf(
             logger.info(f"[OK] Successfully processed {pdf_path.name}")
             return True
         else:
-            logger.error(f"✗ Failed to save {pdf_path.name}")
+            logger.error(f"[ERROR] Failed to save {pdf_path.name}")
             return False
             
     except Exception as e:
-        logger.error(f"✗ Error processing {pdf_path.name}: {e}", exc_info=True)
+        logger.error(f"[ERROR] Error processing {pdf_path.name}: {e}", exc_info=True)
         return False
 
 
@@ -148,11 +148,11 @@ def main():
                 print(f"[OK] {pdf_path.name} completed\n")
             else:
                 failed += 1
-                print(f"✗ {pdf_path.name} failed\n")
+                print(f"[ERROR] {pdf_path.name} failed\n")
                 
         except Exception as e:
             logger.error(f"Unexpected error processing {pdf_path.name}: {e}", exc_info=True)
-            print(f"✗ {pdf_path.name} failed: {e}\n")
+            print(f"[ERROR] {pdf_path.name} failed: {e}\n")
             failed += 1
             continue
     
@@ -162,7 +162,7 @@ def main():
     print(f"{'='*80}")
     print(f"[OK] Successful: {successful}")
     if failed > 0:
-        print(f"✗ Failed: {failed}")
+        print(f"[ERROR] Failed: {failed}")
     
     # Show available collections
     print(f"\nAvailable collections:")
@@ -170,7 +170,7 @@ def main():
     
     for coll in collections:
         info = storage_manager.get_collection_info(coll)
-        docstore_status = "[OK]" if info.get('has_docstore') else "✗"
+        docstore_status = "[OK]" if info.get('has_docstore') else "[ERROR]"
         print(f"  {docstore_status} {coll} ({info.get('count', 0)} chunks)")
     
     print(f"\n💡 Query these collections using: python scripts/query.py")

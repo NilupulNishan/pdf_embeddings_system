@@ -144,7 +144,7 @@ class PDFLoader:
                 print(f"[OK] {pdf_path.name} → {collection_name} ({len(documents)} pages)")
             except Exception as e:
                 logger.error(f"Failed to load {pdf_path.name}: {e}")
-                print(f"✗ {pdf_path.name} - Error: {e}")
+                print(f"[ERROR] {pdf_path.name} - Error: {e}")
                 continue
         
         print("=" * 80)
