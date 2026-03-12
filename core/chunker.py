@@ -96,7 +96,7 @@ Summary:"""
                 logger.warning(f"Failed to generate summary for node {node.node_id}: {e}")
                 summaries[node.node_id] = node.get_content()[:150] + "..."
         
-        logger.info(f"  ✓ Generated {len(summaries)} summaries")
+        logger.info(f"  [OK] Generated {len(summaries)} summaries")
         return summaries
     
     def enrich_leaf_nodes(self, nodes: List, parent_summaries: Dict[str, str]) -> List[TextNode]:
@@ -156,11 +156,11 @@ Summary:"""
             
             enriched_nodes.append(enriched_node)
         
-        logger.info(f"  ✓ Enriched {len(enriched_nodes)} nodes")
+        logger.info(f"  [OK] Enriched {len(enriched_nodes)} nodes")
         
         # Validate metadata
         valid_count = sum(1 for node in enriched_nodes if 'page' in node.metadata)
-        logger.info(f"  ✓ {valid_count}/{len(enriched_nodes)} nodes have page metadata")
+        logger.info(f"  [OK] {valid_count}/{len(enriched_nodes)} nodes have page metadata")
         
         return enriched_nodes
     
@@ -185,7 +185,7 @@ Summary:"""
         # Enrich leaf nodes with context
         enriched_leaf_nodes = self.enrich_leaf_nodes(nodes, parent_summaries)
         
-        logger.info("✓ Document processing complete")
+        logger.info("[OK] Document processing complete")
         
         return nodes, enriched_leaf_nodes
 

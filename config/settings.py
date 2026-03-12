@@ -73,7 +73,7 @@ def validate_config():
             f"Please check your .env file."
         )
     
-    logger.info("✓ Configuration validated successfully")
+    logger.info("[OK] Configuration validated successfully")
     return True
 
 

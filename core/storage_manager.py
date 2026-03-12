@@ -76,7 +76,7 @@ class StorageManager:
             with open(docstore_file, 'w', encoding='utf-8') as f:
                 json.dump(docs_dict, f, indent=2)
             
-            logger.info(f"  ✓ Saved docstore: {docstore_file.name}")
+            logger.info(f"  [OK] Saved docstore: {docstore_file.name}")
             logger.debug(f"    Documents: {len(docs_dict)}")
             
             return True
@@ -112,7 +112,7 @@ class StorageManager:
                 node = TextNode.from_dict(doc_dict)
                 docstore.add_documents([node])
             
-            logger.info(f"  ✓ Loaded docstore: {docstore_file.name}")
+            logger.info(f"  [OK] Loaded docstore: {docstore_file.name}")
             logger.debug(f"    Documents: {len(docs_dict)}")
             
             return docstore
@@ -143,13 +143,13 @@ class StorageManager:
             # Delete ChromaDB collection
             if self.collection_exists(collection_name):
                 self.chroma_client.delete_collection(collection_name)
-                logger.info(f"  ✓ Deleted ChromaDB collection: {collection_name}")
+                logger.info(f"  [OK] Deleted ChromaDB collection: {collection_name}")
             
             # Delete docstore file
             docstore_file = self.get_docstore_path(collection_name)
             if docstore_file.exists():
                 docstore_file.unlink()
-                logger.info(f"  ✓ Deleted docstore: {docstore_file.name}")
+                logger.info(f"  [OK] Deleted docstore: {docstore_file.name}")
             
             return True
             
@@ -215,7 +215,7 @@ class StorageManager:
                 show_progress=False
             )
             
-            logger.info(f"  ✓ Collection saved: {collection_name}")
+            logger.info(f"  [OK] Collection saved: {collection_name}")
             logger.debug(f"    Total nodes: {len(all_nodes)}")
             logger.debug(f"    Parent nodes in docstore: {len(parent_nodes)}")
             logger.debug(f"    Leaf nodes in ChromaDB: {len(leaf_node_ids)}")
@@ -275,7 +275,7 @@ class StorageManager:
                 embed_model=embed_model
             )
             
-            logger.info(f"  ✓ Loaded collection: {collection_name}")
+            logger.info(f"  [OK] Loaded collection: {collection_name}")
             logger.debug(f"    Has docstore: {docstore is not None}")
             
             return index, storage_context, docstore is not None

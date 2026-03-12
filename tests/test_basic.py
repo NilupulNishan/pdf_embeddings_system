@@ -57,26 +57,26 @@ if __name__ == "__main__":
     
     try:
         test_configuration()
-        print("✓ Configuration test passed")
+        print("[OK] Configuration test passed")
     except Exception as e:
-        print(f"✗ Configuration test failed: {e}")
+        print(f"[ERROR] Configuration test failed: {e}")
     
     try:
         test_chunk_sizes()
-        print("✓ Chunk sizes test passed")
+        print("[OK] Chunk sizes test passed")
     except Exception as e:
-        print(f"✗ Chunk sizes test failed: {e}")
+        print(f"[ERROR] Chunk sizes test failed: {e}")
     
     try:
         test_pdf_processor_import()
-        print("✓ PDF processor import test passed")
+        print("[OK] PDF processor import test passed")
     except Exception as e:
-        print(f"✗ PDF processor import test failed: {e}")
+        print(f"[ERROR] PDF processor import test failed: {e}")
     
     try:
         test_collection_name_generation()
-        print("✓ Collection name generation test passed")
+        print("[OK] Collection name generation test passed")
     except Exception as e:
-        print(f"✗ Collection name generation test failed: {e}")
+        print(f"[ERROR] Collection name generation test failed: {e}")
     
     print("\nAll basic tests completed!")

@@ -73,7 +73,7 @@ class EmbeddingsManager:
         Settings.embed_model = self.embed_model
         Settings.llm = self.llm
         
-        print("✓ Azure OpenAI models initialized")
+        print("[OK] Azure OpenAI models initialized")
     
     def get_llm(self):
         return self.llm
