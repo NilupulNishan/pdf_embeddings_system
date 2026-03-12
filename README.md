@@ -92,7 +92,7 @@ Available collections:
 
 Select a collection (0-1): 1
 
-✓ Connected to collection: user_manual
+[OK] Connected to collection: user_manual
 
 Query: How do I reset the device?
 

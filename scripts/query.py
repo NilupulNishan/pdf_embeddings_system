@@ -67,7 +67,7 @@ def run():
         retriever = SmartRetriever(selected) if selected \
             else MultiCollectionRetriever()
         label = selected or "all collections"
-        print(f"\n{Fore.GREEN}✓ Connected: {label}{Style.RESET_ALL}")
+        print(f"\n{Fore.GREEN}[OK] Connected: {label}{Style.RESET_ALL}")
     except Exception as e:
         print(f"{Fore.RED}Error: {e}{Style.RESET_ALL}")
         return 1

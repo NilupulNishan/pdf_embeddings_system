@@ -1,3 +1,10 @@
+import sys
+import io
+
+# Force UTF-8 encoding (fix Windows charmap errors)
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
+
 from fastapi import FastAPI
 
 from app.api.routes.query_routes import router as query_router
